@@ -22,6 +22,8 @@ import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.Locale;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -53,6 +55,9 @@ import android.widget.Toast;
 public class MainActivity extends Activity implements CreateNdefMessageCallback {
 
 	private static final String TAG = "cbbeam";
+	private static final Pattern P = Pattern.compile("passcode-([a-z0-9]*)");
+	private static final String INGRESS_PACKAGE = "com.nianticproject.ingress";
+
 	EditText mEt;
 	NfcAdapter mNfcAdapter;
 	private ShareActionProvider mShareActionProvider;
@@ -92,6 +97,17 @@ public class MainActivity extends Activity implements CreateNdefMessageCallback 
 				}
 				if (text != null) {
 					text = text.toString().trim();
+				}
+				cb.setPrimaryClip(new ClipData("text",
+						new String[] { "text/plain" }, new Item(text)));
+				Toast.makeText(this, R.string.text_saved, Toast.LENGTH_LONG)
+						.show();
+			} else if (action != null && action.equals(Intent.ACTION_VIEW)
+					&& i.getData() != null) {
+				text = i.getDataString();
+				Matcher m = P.matcher(text);
+				if (m.find()) {
+					text = m.group(1);
 				}
 				cb.setPrimaryClip(new ClipData("text",
 						new String[] { "text/plain" }, new Item(text)));
@@ -151,12 +167,19 @@ public class MainActivity extends Activity implements CreateNdefMessageCallback 
 		MenuItem item = menu.findItem(R.id.menu_share);
 		mShareActionProvider = (ShareActionProvider) item.getActionProvider();
 		setShareIntent();
+		if (getPackageManager().getLaunchIntentForPackage(INGRESS_PACKAGE) == null) {
+			menu.removeItem(R.id.menu_ingress);
+		}
 		return true;
 	}
 
 	@Override
 	public boolean onOptionsItemSelected(final MenuItem item) {
 		switch (item.getItemId()) {
+		case R.id.menu_ingress:
+			startActivity(getPackageManager().getLaunchIntentForPackage(
+					INGRESS_PACKAGE));
+			return true;
 		case R.id.menu_info:
 			Builder b = new Builder(this);
 			b.setCancelable(true);

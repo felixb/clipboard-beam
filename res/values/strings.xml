@@ -21,6 +21,7 @@
     <string name="activate_nfc">Please activate NFC</string>
     <string name="menu_share">Share</string>
     <string name="text_saved">Text saved to clipboard</string>
+    <string name="start_ingress">Start Ingress</string>
     <string name="error">Error</string>
     <string name="info">Info</string>
     <string name="info_long">%1$s reads your clipboard and beams the content to your buddy with Android Beam&#8482;.\n\nIt\'s free. It\'s open source. It\'s GPLv3 (%2$s).\n\nGet the source on github: %3$s</string>
