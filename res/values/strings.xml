@@ -26,6 +26,6 @@
     <string name="info">Info</string>
     <string name="info_long">%1$s reads your clipboard and beams the content to your buddy with Android Beam&#8482;.\n\nIt\'s free. It\'s open source. It\'s GPLv3 (%2$s).\n\nGet the source on github: %3$s</string>
     <string name="link_gpl3" translatable="false">http://www.gnu.org/licenses/gpl-3.0.txt</string>
-    <string name="link_github" translatable="false">https://gihub.com/felixb/clipboard-beam/</string>
+    <string name="link_github" translatable="false">https://github.com/felixb/clipboard-beam/</string>
 
 </resources>
